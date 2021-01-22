@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { css } from 'styled-components'
 import { useSelector } from 'react-redux'
 
 import {
@@ -10,7 +11,9 @@ import {
   Icon,
   ALIGN_CENTER,
   SIZE_2,
+  SPACING_1,
   SPACING_2,
+  C_LIGHT_GRAY,
   C_DARK_GRAY,
   BORDER_SOLID_MEDIUM,
 } from '@opentrons/components'
@@ -28,6 +31,16 @@ type ClickableIconProps = {
   isLast?: boolean,
 }
 
+const iconBoxStyles = css`
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: ${C_LIGHT_GRAY};
+  }
+`
+
 export const ClickableIcon = (props: ClickableIconProps): React.Node => {
   const { iconName, tooltipText, width } = props
   const [targetProps, tooltipProps] = useHoverTooltip({
@@ -35,12 +48,12 @@ export const ClickableIcon = (props: ClickableIconProps): React.Node => {
   })
 
   const boxStyles = {
-    marginRight: props.isLast ? 0 : SPACING_2,
+    padding: SPACING_1,
     marginLeft: props.alignRight ? 'auto' : 0,
   }
 
   return (
-    <Box {...boxStyles} {...targetProps}>
+    <Box {...boxStyles} {...targetProps} css={iconBoxStyles}>
       <Tooltip {...tooltipProps}>{tooltipText}</Tooltip>
       <Icon name={iconName} width={width || '1.25rem'} color={C_DARK_GRAY} />
     </Box>
@@ -79,7 +92,7 @@ export const MultiSelectToolbar = (): React.Node => {
     <Flex
       alignItems={ALIGN_CENTER}
       height={SIZE_2}
-      padding={'0 0.75rem'}
+      padding={`0 ${SPACING_2}`}
       borderBottom={BORDER_SOLID_MEDIUM}
     >
       <ClickableIcon {...selectProps} />
